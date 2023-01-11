@@ -17,10 +17,11 @@ class TCDevice:
         self.data = None
         self.board = GPIO.BOARD
 
-        self.spi.open(spi_bus, spi_device)
+        self.spi.open(self.spi_bus, self.spi_device)
         self.spi.max_speed_hz = 1000000
         
         # Initialise GPIO
+        GPIO.setwarnings(False)
         GPIO.setmode(self.board)
         
         # Set all cs pins to output and pull up to inactive
@@ -30,7 +31,7 @@ class TCDevice:
             
     def read(self, channel):
         '''Reads SPI bus and returns current value of thermocouple.'''
-        def reader():
+        def reader(channel):
             cs_pin = self.cs_list[channel]
             GPIO.output(cs_pin, GPIO.LOW)
             bytelist = self.spi.readbytes(6)
@@ -56,8 +57,9 @@ class TCDevice:
 
             # print(f'{cs_pin=} {t1=} {t2=} {fault=} {fault_short_vcc=} {fault_short_gnd=} {fault_open_connection=}')
             return t1
-        return reader
+        return reader(channel)
 
     def __end__(self):
+        GPIO.setwarnings(True)
         GPIO.cleanup()
     

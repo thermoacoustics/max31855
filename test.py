@@ -1,5 +1,7 @@
 from hpboard import TCDevice
 
+TC = TCDevice().read
+
 T1w = TC(0)          # Water intlet temperature (C)
 T2w = TC(1)          # Water outlet temperature (C)
 T1a = TC(2)          # Air intlet temperature (C)
@@ -9,4 +11,4 @@ T2r = TC(5)          # Compressor outlet temperature (C)
 T3r = TC(6)          # Condenser outlet temperature (C)
 T4r = TC(7)          # Throttle outlet temperature (C)
 
-print(T1w,T2w,T1a,T1r,T2r,T3r,T4r)
+print(T4r)
